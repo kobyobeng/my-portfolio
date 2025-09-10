@@ -1,0 +1,25 @@
+
+name: CI
+
+on:
+  
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Image
+        run: docker build -t kobyobeng/portfolio .
+
+      - name: Push Image
+        run: |
+             docker login -u kobyobeng -p ${{secrets.REGISTRY_PASS}}
+             docker push kobyobeng/portfolio
+          
